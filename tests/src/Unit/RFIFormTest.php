@@ -1,10 +1,10 @@
 <?php
 namespace Drupal\Tests\rfi_form\Unit;
 
+use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\rfi_form\Form\RFIForm;
 use Drupal\Core\Form\FormState;
 use Drupal\Tests\UnitTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RFIFormTest extends UnitTestCase {
 
@@ -16,13 +16,19 @@ class RFIFormTest extends UnitTestCase {
 
   public function setUp() : void {
     parent::setUp();
-    \Drupal::setContainer($this->prophesize(ContainerInterface::class)->reveal());
-    $container = \Drupal::getContainer();
-    $db = new \stdClass();
-    $db->insert = function ($table) {
-
-    };
-    $container->setParameter('database', $db);
+    $container = new ContainerBuilder();
+    $insert = $this->getMockBuilder('\Drupal\Core\Database\Query\Insert')->disableOriginalConstructor()->getMock();
+    $insert->method('fields')->willReturn($insert);
+    $insert->method('execute')->willReturn(1);
+    $conn = $this->getMockBuilder('\Drupal\Core\Database\Driver\mysql\Connection')
+      ->disableOriginalConstructor()
+      ->getMock();
+    $conn->method('insert')->willReturn($insert);
+    $translation = $this->getMockBuilder('\Drupal\Core\StringTranslation\TranslationManager')
+      ->disableOriginalConstructor()->getMock();
+    $container->set('database', $conn);
+    $container->set("string_translation", $translation);
+    \Drupal::setContainer($container);
     $state = array (
       'first_name' => 'FirstName',
       'last_name'=> 'LastName',
