@@ -15,12 +15,11 @@ use JetBrains\PhpStorm\ArrayShape;
  *
  */
 class RfiFormBlock extends BlockBase {
-  const ARRAY_SHAPE = ['#type' => "string", '#markup' => "string"];
 
   /**
    * {@inheritdoc}
    */
-  #[ArrayShape(self::ARRAY_SHAPE)] public function build() : array {
+  public function build() : array {
     return \Drupal::formBuilder()->getForm('\Drupal\rfi_form\Form\RFIForm');
   }
 
