@@ -3,3 +3,37 @@
 * @file
 * A description of what your module does.
 */
+
+use JetBrains\PhpStorm\ArrayShape;
+
+/**
+ * Implements hook_schema().
+ */
+#[ArrayShape(['rfi_submissions' => "array"])] function rfi_form_schema(): array {
+  return [
+    'rfi_submissions' => [
+      'description' => 'Location for RFI submissions',
+      'fields' => [
+        'id' => [
+          'description' => 'local identifier for RFI submissions',
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE
+        ],
+        'lead' => [
+          'description' => 'Encrypted JSON of entire form',
+          'type' => 'blob',
+          'not null' => TRUE
+        ],
+        'processed' => [
+          'description' => 'Boolean to tell whether the lead has been sent to the CRM',
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0
+        ],
+      ],
+      'primary key' => ['id'],
+    ]
+  ];
+}
