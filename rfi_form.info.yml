@@ -1,6 +1,6 @@
 name: RFI Form
 type: module
-package: Custom Dev Mods
+package: Form Blocks
 description: 'My implementation of an RFI form that I had to do before.'
 core: 8.x
 core_version_requirement: 8.x || 9.x
