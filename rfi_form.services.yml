@@ -1,0 +1,4 @@
+services:
+  Drupal\rfi_form\Form\RFIForm:
+    class: Drupal\rfi_form\Form\RFIForm
+    arguments: ['@database']
