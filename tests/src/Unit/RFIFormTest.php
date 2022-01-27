@@ -38,7 +38,7 @@ class RFIFormTest extends UnitTestCase {
     );
     $this->formState = (new FormState())->setValues($state);
     $this->formState->setSubmitted();
-    $this->form = RFIForm::create($container);
+    $this->form = new RFIForm($conn);
     $this->formFields = $this->form->buildForm([],$this->formState);
   }
 
